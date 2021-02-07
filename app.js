@@ -9,7 +9,7 @@ const fetchingMealData = () => {
     fetch(url)
         .then(res => res.json())
         .then(data => displayMealItems(data))
-        .catch(error => alert('Please provide appropriate input!')); //An error alert is provided for unusual input
+        .catch(error => alert("Sorry, the meal you searched for isn't available in our menu")); //An error alert is provided for unusual input
 }
 
 
@@ -41,6 +41,7 @@ const displayMealItemsDetails = mealId => {
         .then(res => res.json())
         .then(data => renderMealItemsIngredients(data));
 }
+
 
 //This function helps to displays meal items along with its ingredients' information in the browser.
 const renderMealItemsIngredients = mealItem => {
