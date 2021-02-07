@@ -14,15 +14,24 @@
 </head>
 
 <body>
+    <!--Input field section-->
     <div class="input-group mb-3 input-field">
         <input id="input-text" type="text" class="form-control" placeholder="Search for Meal..."
             aria-label="Search for Meal..." aria-describedby="button-addon2">
-        <button onclick="" class="btn btn-outline-danger" type="button" id="button-addon2">Search</button>
+        <button onclick="fetchingMealData()" class="btn btn-outline-danger" type="button"
+            id="button-addon2">Search</button>
+    </div>
+    
+    <!--A section that appears describing the ingredients when any meal item is clicked-->
+    <div id="meal-ingredients">
+
     </div>
 
+    <!--A section that appears (if there is any search result) after a search attempt is made for any meal in the input field-->
     <div id="meal-items">
 
     </div>
+
     <script src="app.js"></script>
 </body>
 
