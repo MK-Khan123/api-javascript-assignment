@@ -2,14 +2,18 @@
 const fetchingMealData = () => {
     const mealItemsDiv = document.getElementById('meal-items');
     const mealIngredientsDiv = document.getElementById('meal-ingredients');
+    const errorMessageDiv = document.getElementById('error-message');
+    
     mealItemsDiv.innerHTML = '';
     mealIngredientsDiv.innerHTML = '';
+    errorMessageDiv.innerHTML = '';
+    
     const inputText = document.getElementById('input-text').value;
     const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${inputText}`;
     fetch(url)
         .then(res => res.json())
         .then(data => displayMealItems(data))
-        .catch(error => alert("Sorry, the meal you searched for isn't available in our menu")); //An error alert is provided for unusual input
+        .catch(error => displayErrorMessage("Sorry, the meal you searched for isn't available!")); //An error alert is provided for unusual input
 }
 
 
@@ -48,21 +52,29 @@ const renderMealItemsIngredients = mealItem => {
     const mealItemArray = mealItem.meals;
     const recipe = mealItemArray[0];
     const mealIngredientsDiv = document.getElementById('meal-ingredients');
+
     mealIngredientsDiv.innerHTML = `
         <img src = "${recipe.strMealThumb}">
         <h1>${recipe.strMeal}</h1>
         <h4>Ingredients</h4>
-        <ul>
-            <li>${recipe.strIngredient1}</li>
-            <li>${recipe.strIngredient2}</li>
-            <li>${recipe.strIngredient3}</li>
-            <li>${recipe.strIngredient4}</li>
-            <li>${recipe.strIngredient5}</li>
-            <li>${recipe.strIngredient6}</li>
-            <li>${recipe.strIngredient7}</li>
-            <li>${recipe.strIngredient8}</li>
-            <li>${recipe.strIngredient9}</li>
-            <li>${recipe.strIngredient10}</li>
-        </ul>
-    `;
+        `;
+    const ul = document.createElement('ul');
+    //According to the instructions provided by the support instructor, maximum number of ingredients shown dynamically will be 10 (if the original number (data fetched from API) of ingredients is 10 or more). It will be less than 10, if the number of ingredients originally (data fetched from API) is 10 or less.
+    for (let i = 1; i <= 10; i++) {
+        const li = document.createElement('li');
+        const ingredients = recipe[`strIngredient${i}`];
+        if (ingredients === '' || null || undefined) {
+            break;
+        }
+        li.innerText = ingredients;
+        ul.appendChild(li);
+    }
+    mealIngredientsDiv.appendChild(ul);
+}
+
+
+//This function will show an error message if any unusual input or anomalies takes place
+const displayErrorMessage = error => {
+    const errorTag = document.getElementById('error-message');
+    errorTag.innerText = error;
 }
